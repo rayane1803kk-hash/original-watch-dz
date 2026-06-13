@@ -1,0 +1,95 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "brand": "Festina",
+      "name": "Diver Cristal Sapphire",
+      "price": 33000,
+      "stock": 3,
+      "gender": "homme",
+      "image_url": null
+    },
+    {
+      "id": 2,
+      "brand": "Festina",
+      "name": "Chronographe Sport",
+      "price": 27500,
+      "stock": 2,
+      "gender": "homme",
+      "image_url": null
+    },
+    {
+      "id": 3,
+      "brand": "Festina",
+      "name": "Chrono Bike Edition",
+      "price": 32000,
+      "stock": 1,
+      "gender": "homme",
+      "image_url": null
+    },
+    {
+      "id": 4,
+      "brand": "Festina",
+      "name": "Edition Speciale",
+      "price": 45000,
+      "stock": 1,
+      "gender": "homme",
+      "image_url": null
+    },
+    {
+      "id": 5,
+      "brand": "Michael Kors",
+      "name": "Bradshaw Femme",
+      "price": 28000,
+      "stock": 4,
+      "gender": "femme",
+      "image_url": null
+    },
+    {
+      "id": 6,
+      "brand": "Michael Kors",
+      "name": "Lexington Chronograph",
+      "price": 28000,
+      "stock": 2,
+      "gender": "femme",
+      "image_url": null
+    },
+    {
+      "id": 7,
+      "brand": "Michael Kors",
+      "name": "Slim Runway",
+      "price": 28000,
+      "stock": 3,
+      "gender": "femme",
+      "image_url": null
+    },
+    {
+      "id": 8,
+      "brand": "Casio",
+      "name": "Classic Woman",
+      "price": 14000,
+      "stock": 5,
+      "gender": "femme",
+      "image_url": null
+    },
+    {
+      "id": 9,
+      "brand": "Guess",
+      "name": "Frontier Gold",
+      "price": 29000,
+      "stock": 2,
+      "gender": "homme",
+      "image_url": null
+    },
+    {
+      "id": 10,
+      "brand": "Festina",
+      "name": "Elegance Femme",
+      "price": 26000,
+      "stock": 2,
+      "gender": "femme",
+      "image_url": null
+    }
+  ],
+  "nextId": 11
+}
