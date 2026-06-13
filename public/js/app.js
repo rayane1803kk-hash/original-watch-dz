@@ -1,21 +1,25 @@
-// ── STATE ──
-let products = [];
+// Fixed app.js - products hardcoded, no backend needed
+let products = [
+  { id: 1,  brand: 'Festina',      name: 'Diver Cristal Sapphire', price: 33000, stock: 3, gender: 'homme', image_url: null },
+  { id: 2,  brand: 'Festina',      name: 'Chronographe Sport',     price: 27500, stock: 2, gender: 'homme', image_url: null },
+  { id: 3,  brand: 'Festina',      name: 'Chrono Bike Edition',    price: 32000, stock: 1, gender: 'homme', image_url: null },
+  { id: 4,  brand: 'Festina',      name: 'Edition Speciale',       price: 45000, stock: 1, gender: 'homme', image_url: null },
+  { id: 5,  brand: 'Michael Kors', name: 'Bradshaw Femme',         price: 28000, stock: 4, gender: 'femme', image_url: null },
+  { id: 6,  brand: 'Michael Kors', name: 'Lexington Chronograph',  price: 28000, stock: 2, gender: 'femme', image_url: null },
+  { id: 7,  brand: 'Michael Kors', name: 'Slim Runway',            price: 28000, stock: 3, gender: 'femme', image_url: null },
+  { id: 8,  brand: 'Casio',        name: 'Classic Woman',          price: 14000, stock: 5, gender: 'femme', image_url: null },
+  { id: 9,  brand: 'Guess',        name: 'Frontier Gold',          price: 29000, stock: 2, gender: 'homme', image_url: null },
+  { id: 10, brand: 'Festina',      name: 'Elegance Femme',         price: 26000, stock: 2, gender: 'femme', image_url: null }
+];
+
 let cart = [];
 let activeFilter = 'all';
 
-// ── FETCH PRODUCTS ──
 async function loadProducts() {
-  try {
-    const res = await fetch('/api/products');
-    products = await res.json();
-    renderProducts(products);
-    document.getElementById('loading').style.display = 'none';
-  } catch (e) {
-    document.getElementById('loading').textContent = 'Erreur de chargement.';
-  }
+  renderProducts(products);
+  document.getElementById('loading').style.display = 'none';
 }
 
-// ── RENDER PRODUCTS ──
 function renderProducts(list) {
   const grid = document.getElementById('productsGrid');
   const filtered = activeFilter === 'all'
@@ -26,24 +30,22 @@ function renderProducts(list) {
       );
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<p style="color:var(--muted);padding:40px;grid-column:1/-1">Aucun produit trouvé.</p>';
+    grid.innerHTML = '<p style="color:var(--muted);padding:40px;grid-column:1/-1">Aucun produit trouve.</p>';
     return;
   }
 
   grid.innerHTML = filtered.map(p => `
     <div class="product-card ${p.stock === 0 ? 'out-of-stock' : ''}" onclick="openModal(${p.id})">
-      ${p.stock === 0 ? '<div class="out-badge">Épuisé</div>' : ''}
+      ${p.stock === 0 ? '<div class="out-badge">Epuise</div>' : ''}
       <div class="product-img">
-        ${p.image_url
-          ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy"/>`
-          : '⌚'}
+        ${p.image_url ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy"/>` : '⌚'}
       </div>
-      <div class="card-overlay"><span>Voir détails</span></div>
+      <div class="card-overlay"><span>Voir details</span></div>
       <div class="card-info">
         <div class="card-brand">${p.brand}</div>
         <div class="card-name">${p.name}</div>
         <div class="card-footer">
-          <div class="card-price">${p.stock === 0 ? 'Épuisé' : Number(p.price).toLocaleString('fr-DZ') + ' DA'}</div>
+          <div class="card-price">${p.stock === 0 ? 'Epuise' : Number(p.price).toLocaleString('fr-DZ') + ' DA'}</div>
           <div class="card-gender">${p.gender === 'homme' ? 'Homme' : p.gender === 'femme' ? 'Femme' : p.gender}</div>
         </div>
       </div>
@@ -51,7 +53,6 @@ function renderProducts(list) {
   `).join('');
 }
 
-// ── FILTERS ──
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -61,7 +62,6 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
-// ── MODAL ──
 function openModal(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
@@ -77,10 +77,10 @@ function openModal(id) {
       <div class="modal-gender">${p.gender === 'homme' ? 'Pour Homme' : p.gender === 'femme' ? 'Pour Femme' : ''}</div>
       <div class="modal-price">${Number(p.price).toLocaleString('fr-DZ')} DA</div>
       <div class="modal-stock ${inStock ? 'in' : ''}">
-        ${inStock ? `✓ En stock (${p.stock} disponible${p.stock > 1 ? 's' : ''})` : '✗ Épuisé'}
+        ${inStock ? '✓ En stock (' + p.stock + ' disponible' + (p.stock > 1 ? 's' : '') + ')' : '✗ Epuise'}
       </div>
       <button class="btn-add" ${!inStock ? 'disabled' : ''} onclick="addToCart(${p.id})">
-        ${inStock ? 'Ajouter au panier' : 'Épuisé'}
+        ${inStock ? 'Ajouter au panier' : 'Epuise'}
       </button>
     </div>
   `;
@@ -94,16 +94,11 @@ function closeModal() {
   document.getElementById('productModal').classList.remove('open');
 }
 
-// ── CART ──
 function addToCart(id) {
   const p = products.find(x => x.id === id);
   if (!p || p.stock === 0) return;
   const existing = cart.find(x => x.id === id);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({ ...p, qty: 1 });
-  }
+  if (existing) { existing.qty += 1; } else { cart.push({ ...p, qty: 1 }); }
   updateCartUI();
   closeModal();
   toggleCart();
@@ -131,9 +126,7 @@ function updateCartUI() {
 
   itemsEl.innerHTML = cart.map(item => `
     <div class="cart-item">
-      <div class="cart-item-img">
-        ${item.image_url ? `<img src="${item.image_url}" alt="${item.name}"/>` : '⌚'}
-      </div>
+      <div class="cart-item-img">${item.image_url ? `<img src="${item.image_url}" alt="${item.name}"/>` : '⌚'}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
         <div class="cart-item-price">${Number(item.price).toLocaleString('fr-DZ')} DA × ${item.qty}</div>
@@ -144,10 +137,7 @@ function updateCartUI() {
 
   const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
   footerEl.innerHTML = `
-    <div class="cart-total">
-      <span>Total</span>
-      <strong>${total.toLocaleString('fr-DZ')} DA</strong>
-    </div>
+    <div class="cart-total"><span>Total</span><strong>${total.toLocaleString('fr-DZ')} DA</strong></div>
     <a href="https://www.instagram.com/original_watch_dz/" target="_blank" class="btn-primary" style="display:block;text-align:center;width:100%">
       Commander sur Instagram
     </a>
@@ -159,5 +149,4 @@ function toggleCart() {
   document.getElementById('cartSidebar').classList.toggle('open');
 }
 
-// ── INIT ──
 loadProducts();
